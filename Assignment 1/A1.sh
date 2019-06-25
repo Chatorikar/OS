@@ -6,10 +6,10 @@ header(){
 
 Create(){
 
-	echo "Enter Filename  :  "
+	echo -n -e "Enter Filename  :  "
 	read filename 
 	touch $filename.txt	  
-	echo -n -e "\n\n Files $filename is Sucessfully Created  \n\n\n"
+	echo -n -e "\n\n Files $filename.txt is Sucessfully Created  \n\n\n"
 		 	  
 }
 
@@ -17,25 +17,30 @@ View_All_Record(){
 
 	echo -e "\t\t All Record are as follows :   \n\n\n"
 	header
-	cat R.txt
+	cat Record.txt
 		 	  
 }
 
 
 Insert_Record(){
 	
-	echo " Enter passanger Name : "
+	echo -n -e " Enter passanger Name : "
 	read name
 	echo " Hello ,  $name ! "
-	echo " Please Enter Date of Journey  : "
+	echo "" 
 	cal 
+	echo -n -e  "\n\n Please Enter Date of Journey  : "
 	read date_journy  
-	echo "\n Please Enter Source : "
+	echo -n -e  "\n Please Enter Source : "
 	read source_AP
-	echo " Please Enter Destination  : " 
+	echo -n -e  " Please Enter Destination  : " 
 	read Desti_AP
-		     
-	echo -e "\t\t\t $name        \t$date_journy June       \t$source_AP	      \t$Desti_AP   " >> R.txt
+	
+	#printf '|%4.4s|\n' Record Successfully Added 
+	echo -n -e "\n\n\t\t\t\t\t\t\t Record Successfully Added \n\n"	     
+	echo -n -e "\n\n\t\t\t $name        \t$date_journy June       \t$source_AP	      \t$Desti_AP   " >> Record.txt
+	header
+	echo -e "\t\t\t $name        \t$date_journy June       \t$source_AP	      \t$Desti_AP   "
 
 }
 
@@ -70,4 +75,4 @@ while true
 		 4) Delete_Record;;
 		 	 
 		esac
-	done
+done
