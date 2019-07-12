@@ -1,6 +1,6 @@
 header(){
 	
-	#echo -n -e "\n\n\t\t\t Name        \tAddress        \tPincode	      \tCity      \tState   "
+	echo -n -e "\n\n\t\t      Name        \tAddress        \tPincode	      \tCity      \tState   "
 	echo ""
 }
 
@@ -32,7 +32,8 @@ View_All_Record(){
 								
 	echo -e "\t\t All Record are as follows :   \n\n\n"
 	header
-	cat Record.txt | column -t -s ' '
+	cat Record.txt
+	echo -n -e "\n\n\n"
 		 	  
 }
 
@@ -62,7 +63,7 @@ Insert_Record(){
 	#echo -n -e "\n\n\t\t\t $name        \t$date_journy June       \t$source_AP	      \t$Desti_AP   " >> Record.txt
 	header
 	#cat 'Record.txt' | column -t -s '| '
-	echo -n -e " \t$name\t$address\t$pincode\t$city\t$state   " >> Record.txt
+	echo -n -e " \n\t\t\t$name\t\t$address\t\t$pincode\t\t$city\t\t$state   " >> Record.txt
 	#printf  "\n%-20s|%-30s|%-5s$date_journy June|%-10s$source_AP|%-10s$Desti_AP|">>  Record.txt
 	#printf   "\n |%-20s $name %-20s|$date_journy June  %20s|$source_AP %20s|$Desti_AP %20s| ">> Record.txt
 #	sed $'s/#/\001#/' input-record.txt | column -ets $'\001'
@@ -75,6 +76,26 @@ Delete_Record(){
 	read name_delt
 	sed -i "/$name_delt/d" Record.txt
 }
+
+
+modify(){
+
+	echo " Enter Passanger Name : "
+	read name_delt
+	header
+	if grep -i "$name_delt" Record.txt;
+		then
+			sed -i "/$name_delt/d" Record.txt
+	fi
+	
+	Insert_Record
+	
+	
+	
+	
+
+}
+
 
 
 
@@ -98,6 +119,8 @@ while true
 		 3) Insert_Record;;
 		 	   
 		 4) Delete_Record;;
+		 
+		 5) modify;;
 		 	 
 		esac
 done
