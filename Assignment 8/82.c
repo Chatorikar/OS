@@ -6,10 +6,10 @@
 #include "shm_com_2.h"
 
 
-/* 
-  The reason for the system scope is that you want two or more independent processes to have access to the same IPC resources. 
-   So if you have two programs, both of which execute key = ftok("/home/beej/somefile", 'b');, both will get the same token 
-   and can therefor access the same resources (semaphores, shared memory, message queues). 
+/*
+  The reason for the system scope is that you want two or more independent processes to have access to the same IPC resources.
+   So if you have two programs, both of which execute key = ftok("/home/beej/somefile", 'b');, both will get the same token
+   and can therefor access the same resources (semaphores, shared memory, message queues).
    That's the whole point of Inter Process Communication.
 */
 
@@ -19,18 +19,23 @@ int main()
   int shmid , running = 1;
   key_t key = ftok( "shm_com_2.h" , 65);
   int choice;
+  char buffer[50];
 
   void *shared;
   struct shared_memory *sm;
 
   shmid = shmget(key,sizeof(struct shared_memory ) , 0666 | IPC_CREAT);
-  
+
   shared = shmat(shmid , NULL ,0);
+
+  snprintf(buffer , 25 , "ipcs -m | grep %d" , shmid);
+  system(buffer);
 
   sm = (struct shared_memory *)shared;
 
+
   while(running)
-  { 
+  {
     if(sm->written == 1)
     {
       choice = 1;
@@ -51,11 +56,29 @@ int main()
             scanf("%s" , sm->shared_array);
             sm->written = 1;
             break;
-      
+
       case 3:
             running = 0;
       default:
             break;
-    }     
-  }  
+    }
+  }
+
+  printf("\n\n\n");
+  snprintf(buffer , 25 , "ipcs -m | grep %d",shmid);
+  system(buffer);
+
+  if(shmdt(shared) == -1)
+  {
+    perror("\n\nMemory Detach Failed");
+  }
+  if(shmctl(shmid, IPC_RMID , 0) == -1)
+  {
+    printf("\n\n Memory Deletion Failed");
+  }
+  
+  snprintf(buffer , 25 , "ipcs -m | grep %d",shmid);
+  system(buffer);
+  exit(EXIT_SUCCESS);
+
 }
