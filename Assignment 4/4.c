@@ -18,7 +18,7 @@ int main()
     int r =  5 , w = 5 , i  , j , *arg;
     
     pthread_t readerT , writerT;
-    sem_init(&mutex , 0 , r);
+    sem_init(&mutex , 0 , 0);
     sem_init(&rwlock,0,1);
 
     for(i = 0 ; i < r ; i++)
